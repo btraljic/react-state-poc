@@ -19,12 +19,22 @@ export const rtkApi = createApi({
     getAlbumPhotos: builder.query({
       async queryFn(albumId, _queryApi, _extraOptions, fetchWithBQ) {
         const albumResult = await fetchWithBQ(`albums/${albumId}`)
-        const photosResult = await fetchWithBQ(`photos?albumId=${albumId}`)
-        return albumResult.data && photosResult.data
-          ? { data: { album: albumResult.data, photos: photosResult.data } }
-          : {
-              error: albumResult.error ? albumResult.error : photosResult.error,
+
+        if (albumResult.data) {
+          const photosResult = await fetchWithBQ(
+            `photos?albumId=${(albumResult.data as any).id}`
+          )
+
+          if (photosResult.data) {
+            return {
+              data: { album: albumResult.data, photos: photosResult.data },
             }
+          }
+
+          return { error: photosResult.error }
+        }
+
+        return { error: albumResult.error }
       },
     }),
   }),

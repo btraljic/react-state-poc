@@ -14,7 +14,7 @@ function useAlbumPhotos(album: any) {
     isLoading: isLoadingPhotos,
     isFetching: isFetchingPhotos,
     isSuccess: isSuccessPhotos,
-  } = useGetPhotosQuery(album, { skip: !isSuccessAlbums })
+  } = useGetPhotosQuery(dataAlbums?.id, { skip: !isSuccessAlbums })
 
   if (isSuccessPhotos) {
     return {
