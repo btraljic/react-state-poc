@@ -4,6 +4,7 @@ export const rtkApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://jsonplaceholder.typicode.com/',
   }),
+  keepUnusedDataFor: 300,
   endpoints: (builder) => ({
     // ***** getPhotos
     getPhotos: builder.query({
